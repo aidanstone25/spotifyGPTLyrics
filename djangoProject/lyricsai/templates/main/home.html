@@ -1,0 +1,22 @@
+{% extends 'main/base.html' %}
+{% block title %}
+Home
+{% endblock %}
+
+
+{% block content %}
+<h3>Home Page</h3>
+<form action="" method="POST">
+    {% csrf_token %}
+    <div class="input-group mb-3">
+        <div>
+            <input type="text" name="songArtist">
+            <input type="text" name="songName">
+        </div>
+        <div class="input-group-prepend">
+        <button name="save", type="submit", class="btn btn-success">Create</button>
+        </div>
+        {{form.name}}
+  </div>
+</form>
+{% endblock %}

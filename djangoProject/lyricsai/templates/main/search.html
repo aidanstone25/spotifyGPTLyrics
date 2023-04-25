@@ -1,0 +1,43 @@
+{% extends 'main/base.html' %}
+{% block title %}
+Search
+{% endblock %}
+
+{% block content %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+ <script> 
+ function redirectToHome(songName, songArtist) {
+    var csrf_token = '{{ csrf_token }}';
+    $.ajax({
+        url: '/search_results', 
+        type: 'POST', 
+        dataType: 'json', 
+        data: { 
+            'songName': songName, 
+            'songArtist': songArtist, 
+            'csrfmiddlewaretoken': csrf_token 
+        } 
+    }); 
+}
+
+ function redirectToHome2(songName, songArtist) 
+  { $.ajax({ url: '/search_results', type: 'POST', dataType: 'json', data: { 'songName': songName, 'songArtist': songArtist } }); }
+   </script>
+
+<form method="GET" action="{% url 'search' %}">
+    <input type="text" name="q" id="search-input">
+    <button type="submit">Search</button>
+  </form>
+  
+    </form>
+  {% if search %}
+  {% for result in search %}
+  <!-- <p onclick="linkGPT"> {{ result.name }}: <img src="{{ result.images.0.url }}" alt="{{result.name}} image" style="width: 200px; height: 200px;"> </p> -->
+  <p  onclick="redirectToHome('{{ result.name }}', '{{ result.artists.0.name }}')"> 
+    {{result.name}} by {{ result.artists.0.name }} <img src="{{ result.album.images.0.url }}" alt="{{result.name}} image" style="width: 200px; height: 200px;"> 
+  </p>
+
+{% endfor %}
+{% endif %}
+{% endblock %}
